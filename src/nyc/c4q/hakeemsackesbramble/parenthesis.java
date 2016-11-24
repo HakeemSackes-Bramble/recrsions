@@ -81,6 +81,7 @@ public class parenthesis {
         int base = 2;
         if (base < numberOfPairs - 1) {
             base = (int) numberOfPairs - 1;
+            System.out.println("t" + base);
         }
         return decToBin2(((int) Math.pow(base, numberOfPairs - 1)) - 1, (int) numberOfPairs - 1);
     }
@@ -94,8 +95,8 @@ public class parenthesis {
             base = length;
         }
         ArrayList<String> set = new ArrayList<>();
-        set.add("()");
         set.add(")(");
+        set.add("()");
         // for more than 3 parens
         if (length >= 3) {
             for (int i = 2; i < length + 1; i++) {
@@ -107,7 +108,6 @@ public class parenthesis {
                 }
                 set.add(openParens + closeParens);
             }
-            System.out.println(set);
         }
 
         if (number == -1 || length < 1) {
@@ -121,28 +121,31 @@ public class parenthesis {
             return openParens + closeParens;
         }
         for (int i = (int) (Math.log(number) / Math.log(base)); i >= 0; i--) {
-            if ((int) (start / Math.pow(base, i)) != 0) {
-                int a = (int) (start / Math.pow(base, i));
-                binary += set.get(a);
-                start -= a * Math.pow(base, i);
-                test += a;
-
-            } else {
-                binary += set.get(0);
-                test += 1;
+            int a = (int) (start / Math.pow(base, i));
+            int b = a;
+            if (a == 0) {
+                b = 1;
             }
-
+           if (test + b <= length) {
+               binary += set.get(a);
+               start -= a * Math.pow(base, i);
+               test += a;
+               if (a == 0) {
+                   test += 1;
+               }
+           }else {
+               start -= a * Math.pow(base, i);
+           }
         }
-        while (binary.length() <= length) {
-            binary = "()" + binary;
-        }
 
+        while (test < length) {
+            binary = ")(" + binary;
+            test += 1;
+        }
+        System.out.println("" + number + " " + test);
         binary = "(" + binary + ")";
-        if (test <= length) {
-            return binary + " || " + decToBin2(number - 1, length);
-        } else {
-            return decToBin2(number - 1, length);
-        }
+        return binary + " " + number + " " + decToBin2(number - 1, length);
+
     }
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -202,7 +205,7 @@ public class parenthesis {
         }
         binary = "(" + binary + ")";
 
-        return binary + " || " + decToBin2(number - 1, length);
+        return binary + " || " + decToBase3(number - 1, length);
     }
     // () , )( , (()), ((())),
 }

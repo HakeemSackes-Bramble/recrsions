@@ -5,7 +5,7 @@ package nyc.c4q.hakeemsackesbramble;
  */
 public class RomanNumbers {
     public static void main(String[] args) {
-        System.out.println(romanToint("MIX"));
+        System.out.println(romanToint("MCLXIV"));
     }
     public static int romanToint(String romanNumber) {
 
