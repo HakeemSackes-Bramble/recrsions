@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class parenthesis {
 
     public static void main(String[] args) {
-        System.out.println(printAllOptions3(4));
+        System.out.println(printAllOptions2(3));
     }
 
     public static ArrayList<String> printAllOptions(int number) {
@@ -45,7 +45,7 @@ public class parenthesis {
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     static String printAllOptions2(double numberOfPairs) {
-        return decToBin2(((int) Math.pow(2, numberOfPairs)) - 1, (int) numberOfPairs);
+        return decToBin(((int) Math.pow(2, numberOfPairs)) - 1, (int) numberOfPairs);
     }
 
     static String decToBin(int number, int length) {
@@ -67,7 +67,7 @@ public class parenthesis {
             binary = "()" + binary;
         }
         binary = "(" + binary + ")";
-        return binary + " || " + decToBin2(number - 1, length);
+        return binary + " || " + decToBin(number - 1, length);
     }
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -83,23 +83,23 @@ public class parenthesis {
             base = (int) numberOfPairs - 1;
             System.out.println("t" + base);
         }
-        return decToBin2(((int) Math.pow(base, numberOfPairs - 1)) - 1, (int) numberOfPairs - 1);
+        return decToBin2(((int) Math.pow(base, numberOfPairs - 1)) - 1, (int) numberOfPairs - 1,"");
     }
 
-    static String decToBin2(int number, int length) {
-        int start = number;
+    static String decToBin2(int combinations, int setLength, String lastSet) {
+        int start = combinations;
         String binary = "";
         int base = 2;
         int test = 0;
-        if (base < length) {
-            base = length;
+        if (base < setLength) {
+            base = setLength;
         }
         ArrayList<String> set = new ArrayList<>();
         set.add(")(");
         set.add("()");
         // for more than 3 parens
-        if (length >= 3) {
-            for (int i = 2; i < length + 1; i++) {
+        if (setLength >= 3) {
+            for (int i = 2; i < setLength + 1; i++) {
                 String openParens = "";
                 String closeParens = "";
                 for (int j = 0; j < i; j++) {
@@ -110,23 +110,23 @@ public class parenthesis {
             }
         }
 
-        if (number == -1 || length < 1) {
+        if (combinations == -1 || setLength < 1) {
             String openParens = "";
             String closeParens = "";
 
-            for (int i = 0; i <= length; i++) {
+            for (int i = 0; i <= setLength; i++) {
                 openParens += "(";
                 closeParens += ")";
             }
             return openParens + closeParens;
         }
-        for (int i = (int) (Math.log(number) / Math.log(base)); i >= 0; i--) {
+        for (int i = (int) (Math.log(combinations) / Math.log(base)); i >= 0; i--) {
             int a = (int) (start / Math.pow(base, i));
             int b = a;
             if (a == 0) {
                 b = 1;
             }
-           if (test + b <= length) {
+           if (test + b <= setLength) {
                binary += set.get(a);
                start -= a * Math.pow(base, i);
                test += a;
@@ -138,13 +138,16 @@ public class parenthesis {
            }
         }
 
-        while (test < length) {
+        while (test < setLength) {
             binary = ")(" + binary;
             test += 1;
         }
-        System.out.println("" + number + " " + test);
-        binary = "(" + binary + ")";
-        return binary + " " + number + " " + decToBin2(number - 1, length);
+        System.out.println("" + combinations + " " + test);
+        binary = " (" + binary + ") " +"||";
+        if (binary.equals(lastSet)){
+            binary = "";
+        }
+        return binary  + decToBin2(combinations - 1, setLength , binary);
 
     }
 
