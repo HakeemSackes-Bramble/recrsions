@@ -48,6 +48,7 @@ public class finalParens {
                 closeCount += innerParens*2;
                 openCount -= innerParens*2;
             }
+
         }
 
         if (openCount != closeCount) {
