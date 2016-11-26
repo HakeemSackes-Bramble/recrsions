@@ -19,38 +19,46 @@ public class finalParens {
         int start = number;
         String[] paren = {")", "("};
         String set = "";
-        String binSet = "";
         int openCount = 0;
         int closeCount = 0;
+        int pairCount = 1;
         for (int i = (int) (Math.log(number) / Math.log(2)); i >= 0; i--) {
             if ((int) (start / Math.pow(2, i)) == 1) {
                 set += paren[0];
-                binSet += 0;
                 start -= Math.pow(2, i);
                 openCount++;
             } else {
                 set += paren[1];
-                binSet += 1;
                 closeCount++;
             }
+
         }
 
         while (set.length() < innerParens) {
             set = paren[1] + set;
             closeCount++;
         }
-        System.out.println(number + "  " + openCount + " " + closeCount);
+        for (int i = 0; i < set.length(); i++) {
+            if (set.charAt(i) =='('){
+                pairCount++;
+            }else if (set.charAt(i) ==')'){
+                pairCount--;
+            }
+            if (pairCount <= -1) {  //if pairCount is ever less than zero make the count uneven on purpose to invalidate it
+                closeCount += innerParens*2;
+                openCount -= innerParens*2;
+            }
+        }
+
         if (openCount != closeCount) {
             set = "";
-            binSet = "";
         } else {
             set = " (" + set + ") " + number;
-            binSet = " (" + binSet + ") " + number;
         }
         if (number == 0) {
             return set;
         }
-        System.out.println(binSet);
+
         return set + parensToBinary(number - 1, innerParens);
     }
 }
