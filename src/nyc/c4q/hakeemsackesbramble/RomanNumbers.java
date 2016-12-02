@@ -10,7 +10,7 @@ public class RomanNumbers {
     public static int romanToint(String romanNumber) {
 
 
-        int number = 0;
+        int number;
         String smallerString = "";
 
 

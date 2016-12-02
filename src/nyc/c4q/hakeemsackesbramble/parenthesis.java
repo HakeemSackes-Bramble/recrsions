@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class parenthesis {
 
     public static void main(String[] args) {
-        System.out.println(printAllOptions2(3));
+        System.out.println(printAllOptions3(4));
     }
 
     public static ArrayList<String> printAllOptions(int number) {
@@ -143,7 +143,7 @@ public class parenthesis {
             test += 1;
         }
         System.out.println("" + combinations + " " + test);
-        binary = " (" + binary + ") " +"||";
+        binary = " (" + binary + ") " + combinations +"\n";
         if (binary.equals(lastSet)){
             binary = "";
         }
@@ -170,7 +170,7 @@ public class parenthesis {
         ArrayList<String> set = new ArrayList<>();
         set.add("()");
         set.add(")(");
-        // for more than 3 parens
+        // for more than 3 parens1
         if (length >= 3) {
             for (int i = 2; i < length + 1; i++) {
                 String openParens = "";
